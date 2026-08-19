@@ -3,11 +3,7 @@ Local Kaggriculture runner.
 
 Run:
     python play.py
-
-This starts the real Kaggriculture environment locally, runs your agent
-against the built-in starter opponent, and prints a compact result.
-
-Use --steps 100 for a quick test or --steps 720 for a full season.
+    python play.py --steps 720 --seed 17
 """
 
 import argparse
@@ -15,14 +11,13 @@ from kaggle_environments import make
 from main import agent
 
 
-def run(steps=200, seed=17):
+def run(steps=720, seed=17):
     env = make(
         "kaggriculture",
         configuration={"episodeSteps": steps, "seed": seed},
         debug=True,
     )
 
-    # "starter" is provided by the Kaggriculture environment.
     env.run([agent, "starter"])
 
     final = env.steps[-1]
@@ -35,13 +30,12 @@ def run(steps=200, seed=17):
 
     print("=" * 60)
     print("Game finished.")
-    print("To run a full season: python play.py --steps 720")
     print("=" * 60)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--steps", type=int, default=200)
+    parser.add_argument("--steps", type=int, default=720)
     parser.add_argument("--seed", type=int, default=17)
     args = parser.parse_args()
     run(args.steps, args.seed)
